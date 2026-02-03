@@ -1,4 +1,4 @@
-import { AppLayout } from "@/components/layout";
+import { AppLayout, PageTransition } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -21,6 +21,7 @@ const ReportsPage = () => {
 
   return (
     <AppLayout title="Reports" subtitle="Generate and download financial reports">
+      <PageTransition>
       {/* Report options */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex gap-3">
@@ -126,6 +127,7 @@ const ReportsPage = () => {
           })}
         </div>
       </Card>
+      </PageTransition>
     </AppLayout>
   );
 };

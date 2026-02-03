@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AppLayout } from "@/components/layout";
+import { AppLayout, PageTransition } from "@/components/layout";
 import {
   StatCard,
   CategoryBreakdown,
@@ -39,6 +39,7 @@ const Dashboard = () => {
       title="Dashboard"
       subtitle="Overview of your invoice activity"
     >
+      <PageTransition>
       {/* Quick actions */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex gap-2">
@@ -107,12 +108,13 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Invoice detail modal */}
-      <InvoiceDetail
-        invoice={selectedInvoice}
-        open={!!selectedInvoice}
-        onClose={() => setSelectedInvoice(null)}
-      />
+        {/* Invoice detail modal */}
+        <InvoiceDetail
+          invoice={selectedInvoice}
+          open={!!selectedInvoice}
+          onClose={() => setSelectedInvoice(null)}
+        />
+      </PageTransition>
     </AppLayout>
   );
 };

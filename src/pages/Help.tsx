@@ -1,4 +1,4 @@
-import { AppLayout } from "@/components/layout";
+import { AppLayout, PageTransition } from "@/components/layout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,7 @@ import { Mail, MessageSquare, FileQuestion, ExternalLink } from "lucide-react";
 const HelpPage = () => {
   return (
     <AppLayout title="Help & Support" subtitle="Get help with Ledgerly">
+      <PageTransition>
       <div className="max-w-3xl space-y-6">
         {/* Quick links */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -113,6 +114,7 @@ const HelpPage = () => {
           </div>
         </Card>
       </div>
+      </PageTransition>
     </AppLayout>
   );
 };
