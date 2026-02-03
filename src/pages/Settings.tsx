@@ -1,4 +1,4 @@
-import { AppLayout } from "@/components/layout";
+import { AppLayout, PageTransition } from "@/components/layout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 const SettingsPage = () => {
   return (
     <AppLayout title="Settings" subtitle="Manage your account and preferences">
+      <PageTransition>
       <div className="max-w-3xl space-y-6">
         {/* Profile section */}
         <Card className="p-6 card-elevated">
@@ -108,6 +109,7 @@ const SettingsPage = () => {
           <Button>Save Changes</Button>
         </div>
       </div>
+      </PageTransition>
     </AppLayout>
   );
 };
