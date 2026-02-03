@@ -43,6 +43,7 @@ interface InvoiceTableProps {
   onViewInvoice?: (invoice: Invoice) => void;
   onEditInvoice?: (invoice: Invoice) => void;
   onDeleteInvoice?: (invoice: Invoice) => void;
+  onNewInvoice?: () => void;
 }
 
 const ITEMS_PER_PAGE = 8;
@@ -52,6 +53,7 @@ export function InvoiceTable({
   onViewInvoice,
   onEditInvoice,
   onDeleteInvoice,
+  onNewInvoice,
 }: InvoiceTableProps) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -146,7 +148,7 @@ export function InvoiceTable({
               <Download className="w-4 h-4 mr-2" />
               Export
             </Button>
-            <Button size="sm">
+            <Button size="sm" onClick={onNewInvoice}>
               <Plus className="w-4 h-4 mr-2" />
               New Invoice
             </Button>
