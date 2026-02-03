@@ -10,8 +10,8 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useSidebarContext } from "./SidebarContext";
 
 interface NavItem {
   icon: React.ElementType;
@@ -32,7 +32,7 @@ const bottomNavItems: NavItem[] = [
 
 export function AppSidebar() {
   const location = useLocation();
-  const [collapsed, setCollapsed] = useState(false);
+  const { collapsed, toggle } = useSidebarContext();
 
   return (
     <aside
@@ -110,7 +110,7 @@ export function AppSidebar() {
         variant="ghost"
         size="icon"
         className="absolute -right-3 top-20 w-6 h-6 rounded-full border border-border bg-card shadow-sm hover:bg-muted"
-        onClick={() => setCollapsed(!collapsed)}
+        onClick={toggle}
       >
         {collapsed ? (
           <ChevronRight className="w-3 h-3" />
