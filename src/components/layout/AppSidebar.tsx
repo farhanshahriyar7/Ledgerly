@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   FileText,
@@ -12,17 +12,20 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useSidebarContext } from "./SidebarContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { Badge } from "@/components/ui/badge";
 
 interface NavItem {
   icon: React.ElementType;
   label: string;
   href: string;
+  permission?: "canViewReports";
 }
 
 const mainNavItems: NavItem[] = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/" },
   { icon: FileText, label: "Invoices", href: "/invoices" },
-  { icon: BarChart3, label: "Reports", href: "/reports" },
+  { icon: BarChart3, label: "Reports", href: "/reports", permission: "canViewReports" },
 ];
 
 const bottomNavItems: NavItem[] = [
@@ -32,7 +35,19 @@ const bottomNavItems: NavItem[] = [
 
 export function AppSidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { collapsed, toggle } = useSidebarContext();
+  const { user, role, signOut, hasPermission } = useAuth();
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate("/login");
+  };
+
+  // Filter nav items based on permissions
+  const filteredMainNav = mainNavItems.filter(
+    (item) => !item.permission || hasPermission(item.permission)
+  );
 
   return (
     <aside
@@ -58,7 +73,7 @@ export function AppSidebar() {
 
       {/* Main navigation */}
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-        {mainNavItems.map((item) => {
+        {filteredMainNav.map((item) => {
           const isActive = location.pathname === item.href;
           return (
             <Link
@@ -77,6 +92,20 @@ export function AppSidebar() {
           );
         })}
       </nav>
+
+      {/* User section */}
+      {user && !collapsed && (
+        <div className="px-3 py-3 border-t border-border">
+          <div className="px-3 py-2">
+            <p className="text-sm font-medium text-foreground truncate">
+              {user.email}
+            </p>
+            <Badge variant="secondary" className="mt-1 capitalize text-xs">
+              {role || "viewer"}
+            </Badge>
+          </div>
+        </div>
+      )}
 
       {/* Bottom navigation */}
       <div className="px-3 py-4 border-t border-border space-y-1">
@@ -99,7 +128,10 @@ export function AppSidebar() {
           );
         })}
         
-        <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+        >
           <LogOut className="w-5 h-5 flex-shrink-0" />
           {!collapsed && <span className="animate-fade-in">Logout</span>}
         </button>
